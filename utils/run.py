@@ -205,7 +205,12 @@ def start(tx, creation_code):
     else:
         return
     
-    contractAddress = w3.eth.get_transaction_receipt(tx)['contractAddress']
+    receipt = w3.eth.get_transaction_receipt(tx)
+    
+    if receipt['status'] == 0:
+        return
+    
+    contractAddress = receipt['contractAddress']
     sys.stdout = open('../contracts/' + contractAddress + '.sol', 'w')
     print('contract main {\n\n')
 
